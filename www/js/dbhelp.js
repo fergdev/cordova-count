@@ -1,35 +1,84 @@
+
+
 function dbConnect(){
-	alert("HELLO WORLD");
-	var db = window.openDatabase("MyFriends", "1.0", "myfriends", 200000);
+	console.log("HELLO WORLD");
+	var db = window.openDatabase("counters", "1.0", "counters", 200000);
 	db.transaction(populateDB, errorCB, successCB);
 }
 
 function populateDB(tx){
-	tx.executeSql('CREATE TABLE IF NOT EXISTS MyFriends (id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, Nickname TEXT NOT NULL)');
-       	tx.executeSql('INSERT INTO MyFriends(Name,Nickname) VALUES ("Sunil Gupta", "android")');
-        tx.executeSql('INSERT INTO MyFriends(Name,Nickname) VALUES ("Abhishek Tripathi", "Champoo")');
-	tx.executeSql('INSERT INTO MyFriends(Name,Nickname) VALUES ("Sandeep Pal", "kaliya sandy")');
-	tx.executeSql('INSERT INTO MyFriends(Name,Nickname) VALUES ("AmitVerma", "Budhiya")');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS counters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, value INTEGER NOT NULL)');
+       //	tx.executeSql('INSERT INTO counters(name,value) VALUES ("swears", 1)');
+       // tx.executeSql('INSERT INTO counters(name,value) VALUES ("farts", 2)');
+	//tx.executeSql('INSERT INTO counters(name,value) VALUES ("pooops", 3)');
 }	
 
+function getCounters(){
+	console.log('getCounters')
+	var db = window.openDatabase("counters", "1.0", "counters", 200000);
+	db.transaction(function(tx){
+		tx.executeSql("SELECT * FROM counters",[],renderCounters,errorCB)	
+	});
+}
+function renderCounters(tx, results){
+	var counterList = $('#counterList')
+	counterList.empty();
+	$.each(results.rows,function(index){
+		var row = results.rows.item(index);
+	        
+		var html = '<li>'; 
+
+		html+='<input type="button" value="+" onclick="incrementCounter(\''+row['name']+'\'")></input>';
+		html+='<h3>'+row['name']+'</h3>';
+		
+		html+='<h4>'+row['value']+'</h4>';
+		html+='<input type="button" value="-" onclick="decrementCounter(\''+row['name']+'\'")></input>';
+       		html+='</li>';
+		console.log(html)	
+		counterList.append(html);
+		/* 
+	        counterList.append('<li>')
+		counterList.append('<input type="button" value="+" onclick="incrementCounter(\''+row['name']+'\')></input>')
+		counterList.append('<h3>'+row['name']+'</h3>')
+		
+		counterList.append('<h4>'+row['value']+'</h4>')
+		counterList.append('<input type="button" value="-" onclick="decrementCounter(\''+row['name']+'\')"></input>');
+       		counterList.append('</li>')
+	*/
+		}
+	);
+	$('#counterList').listview('refresh');
+}
+
+function addCounter(name){
+	console.log("Add counter");
+	var db = window.openDatabase("counters", "1.0", "counters", 200000);
+	db.transaction(function(tx){
+		tx.executeSql("INSERT INTO counters(name,value) VALUES (\'"+name+"\',0)",[],successCB,errorCB)	
+	});
+	//redraw counters
+	getCounters();
+}
+
+function removeCounter(name){
+	console.log('RMOVE COUNTER')
+	var db = window.openDatabase("counters", "1.0", "counters", 200000);
+	db.transaction(function(tx){
+		tx.executeSql("REMOVE FROM counters WHERE name= \'"+name+"\'",[],successCB,errorCB)	
+	});
+}
+function decremnetCounter(name){
+	console.log('Decrement Counter')
+
+}
+function incrementCounter(name){
+	console.log('Increment Counter')
+}
+
 function errorCB(err){
-	alert("Error processing SQL : " + err.code );       
+	console.log("Error processing SQL : " + err.code );       
 }
 function successCB(){
-	alert("SUCCESS");
-	var db = window.openDatabase("MyFriends", "1.0", "myfriends", 200000);
-	db.transaction(queryDB,errorCB);
+	console.log("SUCCESS");
 }
 
-function queryDB(tx){
-	tx.executeSql('SELECT * FROM MyFriends',[],querySuccess,errorCB);
-}
-
-function querySuccess(tx, result){
-	$('#MyFriendsList').empty();
-	$.each(result.rows,function(index){
-		var row = result.rows.item(index);
-	        $('#MyFriendsList').append('<li><h3>'+row['Name']+'</h3></li>');
-       	});
-	$('#MyFriendsList').listview();
-}
