@@ -1,0 +1,82 @@
+/*
+.column-a{ 
+	float: left; 
+	width: 10%; 
+	position: relative;
+	left=100%;
+	align:center;
+	overflow:hidden;
+}
+.column-b{ 
+	float: left; 
+	width: 70%;
+        position:relative;	
+	left:10%;
+	align:center;
+	overflow:hideen;
+}
+.column-c{ 
+	float: left; 
+	width: 10%; 
+	position: relative;
+	left: 20%;
+	align:center;
+	overflow:hidden;
+}
+
+.column-d{ 
+	float: left; 
+	width: 10%;
+        position:relative;	
+	left:10%;
+	align:center;
+	overflow:hidden;
+}
+*/
+
+body{
+	background-color:lightgray
+}
+.counter-li{
+	width:auto;
+	height:50px;
+}
+.column-a{ 
+	position: absolute;
+	left:1%;
+	width:9%;
+}
+.column-b{ 
+	position:absolute;	
+	left:10%;
+	width:69%;
+}
+.column-c{ 
+	position: absolute;
+	left: 80%;
+	width:9%;
+}
+
+.column-d{ 
+	position:absolute;
+	left:90%;
+	width: 9%;
+}
+
+::-webkit-input-placeholder {
+	text-align: center;
+}
+
+:-moz-placeholder { 
+	/* Firefox 18- */
+	text-align: center;  
+}
+
+::-moz-placeholder {
+      	/* Firefox 19+ */
+         text-align: center;  
+}
+
+:-ms-input-placeholder {  
+	text-align: center; 
+}
