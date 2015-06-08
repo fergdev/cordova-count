@@ -7,7 +7,7 @@ function dbConnect(){
 }
 
 function populateDB(tx){
-//	tx.executeSql('DROP TABLE counters');
+	tx.executeSql('DROP TABLE counters');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS counters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, value INTEGER NOT NULL, increment INTEGER NOT NULL)');
        //	tx.executeSql('INSERT INTO counters(name,value) VALUES ("swears", 1)');
@@ -23,6 +23,7 @@ function getCounters(){
 	});
 }
 function renderCounters(tx, results){
+	console.log('RENDER COUNTERS');
 	var counterList = $('#counterList')
 	counterList.empty();
 	$.each(results.rows,function(index){
@@ -92,6 +93,7 @@ function addCounter(){
 	});
 	//redraw counters
 	getCounters();
+	console.log('END ADD COUNTER');
 }
 
 function removeCounter(id){
@@ -100,6 +102,7 @@ function removeCounter(id){
 	db.transaction(function(tx){
 		tx.executeSql("DELETE FROM counters WHERE id= "+id,[],successCB,errorCB)	
 	});
+	navigator.vibrate(500);
 	//redraw counters
 	getCounters();
 }
@@ -119,7 +122,8 @@ function incrementCounter(id, diff){
 	db.transaction(function(tx){
 		tx.executeSql("UPDATE counters SET value = value + "+diff+" WHERE id = "+id,[],successCB,errorCB);
 	});
-
+	navigator.vibrate(500);
+	playClick();
 	//redraw counters
 	getCounters();
 }
@@ -148,6 +152,16 @@ function isNumber(evt){
 }
 
 
-
-
-
+function playClick(){
+	console.log('Play click');
+	var url = "media/click.wav";
+	var url = "file:///android_asset/www/media/click.wav"
+	myAudio = new Media(url,
+        	// success callback
+             	function () { console.log("playAudio():Audio Success"); },
+            	// error callback
+             	function (err) { console.log("playAudio():Audio Error: " + err); }
+    	);
+        // Play audio
+    	myAudio.play();
+}

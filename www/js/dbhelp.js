@@ -7,7 +7,7 @@ function dbConnect(){
 }
 
 function populateDB(tx){
-//	tx.executeSql('DROP TABLE counters');
+	tx.executeSql('DROP TABLE counters');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS counters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, value INTEGER NOT NULL, increment INTEGER NOT NULL)');
        //	tx.executeSql('INSERT INTO counters(name,value) VALUES ("swears", 1)');
@@ -23,32 +23,27 @@ function getCounters(){
 	});
 }
 function renderCounters(tx, results){
-	var counterList = $('#counterList')
+	console.log('RENDER COUNTERS');
+	var counterList = $('#counterList');
 	counterList.empty();
+	console.log('TODO cleanup event handlers on li');
+	
 	$.each(results.rows,function(index){
 		var row = results.rows.item(index);
 	        
 		var html = '<li id="count-'+row['id']+'" class="counter-li">'; 
-//		html+='<div class="column-a"><input type="submit" class="delete-btn fa-input fa-3x" value="&#xf068;" onclick="decrementCounter('+row['id']+')"></input></div>';
  		html+='<div class="column-a"><i class="fa fa-minus fa-3x inc-btn" onclick="decrementCounter('+row['id']+','+row['increment']+')"></i></div>'		
 		html+='<div class="column-b">';
 		html+='<h4 class="counter-name">'+row['name']+'</h4>';
 		
 		html+='<h4 class="counter-value">'+row['value']+'</h4>';
 		html+='</div>'
-		//html+='<div class="column-c"><input type="submit" class="btn fa-input fa-3x" value="&#xf067;" onclick="incrementCounter('+row['id']+')"></input></div>';
 		html+='<div class="column-c"><i href="" class="fa fa-3x fa-plus inc-btn" onclick="incrementCounter('+row['id']+','+row['increment']+')"></i></div>'		
 	
-		//html+='<div class="column-d"><input type="submit" class="btn fa-input fa-3x" value="&#xf1f8;" onclick="removeCounter('+row['id']+')"></input></div>';
-		//html+='<div class="column-d"><i href="" class="fa fa-3x fa-trash d-btn" onclick="removeCounter('+row['id']+')"></i></div>'		
-	
-//		html='<input type="submit" class="btn fa-input" value="&#xf1f8;">'
-
 		html+='</li>';
 
 //		console.log(html)	
 		counterList.append(html);
-		//$( "#count-"+row['id'] ).on( "swipe", swipeHandler );		
 		
 		$("#count-"+row['id']).swiperight(function(){
 		//	console.log("SWIPE R" + row['id'] );
@@ -92,6 +87,7 @@ function addCounter(){
 	});
 	//redraw counters
 	getCounters();
+	console.log('END ADD COUNTER');
 }
 
 function removeCounter(id){
@@ -100,6 +96,7 @@ function removeCounter(id){
 	db.transaction(function(tx){
 		tx.executeSql("DELETE FROM counters WHERE id= "+id,[],successCB,errorCB)	
 	});
+	navigator.vibrate(500);
 	//redraw counters
 	getCounters();
 }
@@ -119,7 +116,8 @@ function incrementCounter(id, diff){
 	db.transaction(function(tx){
 		tx.executeSql("UPDATE counters SET value = value + "+diff+" WHERE id = "+id,[],successCB,errorCB);
 	});
-
+	navigator.vibrate(500);
+	playClick();
 	//redraw counters
 	getCounters();
 }
@@ -148,6 +146,16 @@ function isNumber(evt){
 }
 
 
-
-
-
+function playClick(){
+	console.log('Play click');
+	var url = "media/click.wav";
+	var url = "file:///android_asset/www/media/click.wav"
+	myAudio = new Media(url,
+        	// success callback
+             	function () { console.log("playAudio():Audio Success"); },
+            	// error callback
+             	function (err) { console.log("playAudio():Audio Error: " + err); }
+    	);
+        // Play audio
+    	myAudio.play();
+}

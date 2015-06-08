@@ -6,6 +6,17 @@
     "config_munge": {
         "files": {}
     },
-    "installed_plugins": {},
-    "dependent_plugins": {}
+    "installed_plugins": {
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "com.fergdev.bastardhello"
+        },
+        "org.apache.cordova.media": {
+            "PACKAGE_NAME": "com.fergdev.bastardhello"
+        }
+    },
+    "dependent_plugins": {
+        "org.apache.cordova.file": {
+            "PACKAGE_NAME": "com.fergdev.bastardhello"
+        }
+    }
 }
