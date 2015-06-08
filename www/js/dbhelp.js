@@ -7,7 +7,9 @@ function dbConnect(){
 }
 
 function populateDB(tx){
-	tx.executeSql('CREATE TABLE IF NOT EXISTS counters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, value INTEGER NOT NULL)');
+//	tx.executeSql('DROP TABLE counters');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS counters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, value INTEGER NOT NULL, increment INTEGER NOT NULL)');
        //	tx.executeSql('INSERT INTO counters(name,value) VALUES ("swears", 1)');
        // tx.executeSql('INSERT INTO counters(name,value) VALUES ("farts", 2)');
 	//tx.executeSql('INSERT INTO counters(name,value) VALUES ("pooops", 3)');
@@ -28,49 +30,65 @@ function renderCounters(tx, results){
 	        
 		var html = '<li id="count-'+row['id']+'" class="counter-li">'; 
 //		html+='<div class="column-a"><input type="submit" class="delete-btn fa-input fa-3x" value="&#xf068;" onclick="decrementCounter('+row['id']+')"></input></div>';
- 		html+='<div class="column-a"><i class="fa fa-minus fa-3x d-btn" onclick="decrementCounter('+row['id']+')"></i></div>'		
+ 		html+='<div class="column-a"><i class="fa fa-minus fa-3x inc-btn" onclick="decrementCounter('+row['id']+','+row['increment']+')"></i></div>'		
 		html+='<div class="column-b">';
 		html+='<h4 class="counter-name">'+row['name']+'</h4>';
 		
 		html+='<h4 class="counter-value">'+row['value']+'</h4>';
 		html+='</div>'
 		//html+='<div class="column-c"><input type="submit" class="btn fa-input fa-3x" value="&#xf067;" onclick="incrementCounter('+row['id']+')"></input></div>';
-		html+='<div class="column-c"><i href="" class="fa fa-3x fa-plus d-btn" onclick="incrementCounter('+row['id']+')"></i></div>'		
+		html+='<div class="column-c"><i href="" class="fa fa-3x fa-plus inc-btn" onclick="incrementCounter('+row['id']+','+row['increment']+')"></i></div>'		
 	
 		//html+='<div class="column-d"><input type="submit" class="btn fa-input fa-3x" value="&#xf1f8;" onclick="removeCounter('+row['id']+')"></input></div>';
-		html+='<div class="column-d"><i href="" class="fa fa-3x fa-trash d-btn" onclick="removeCounter('+row['id']+')"></i></div>'		
+		//html+='<div class="column-d"><i href="" class="fa fa-3x fa-trash d-btn" onclick="removeCounter('+row['id']+')"></i></div>'		
 	
 //		html='<input type="submit" class="btn fa-input" value="&#xf1f8;">'
 
 		html+='</li>';
+
 //		console.log(html)	
 		counterList.append(html);
-		$( "#count-"+row['id'] ).on( "swipe", swipeHandler );		
-		/* 
-	        counterList.append('<li>')
-		counterList.append('<input type="button" value="+" onclick="incrementCounter(\''+row['name']+'\')></input>')
-		counterList.append('<h3>'+row['name']+'</h3>')
+		//$( "#count-"+row['id'] ).on( "swipe", swipeHandler );		
 		
-		counterList.append('<h4>'+row['value']+'</h4>')
-		counterList.append('<input type="button" value="-" onclick="decrementCounter(\''+row['name']+'\')"></input>');
-       		counterList.append('</li>')
-	*/
-		}
+		$("#count-"+row['id']).swiperight(function(){
+		//	console.log("SWIPE R" + row['id'] );
+			removeCounter(row['id']);
+		});
+		$("#count-"+row['id']).swipeleft(function(){
+			console.log("SWIPE L" + row['id'] );
+			removeCounter(row['id']);
+		});
+	
+	}
 	);
 	$('#counterList').listview('refresh');
 }
-function swipeHandler(event){
-	console.log('SWIPE "' + event.target+'"')
-
-}
 function addCounter(){
 	console.log("Add counter");
-	
-	name = document.getElementById('counter-name').value;
-	console.log('NAME ' + name)
+
+	counter_name_tb = $('#counter-name');
+	value_tb = $('#counter-value');
+	increment_tb = $('#counter-increment');
+
+	name = counter_name_tb.prop('value');
+	value = value_tb.prop('value');
+	increment = increment_tb.prop('value');
+
+	if(value == ""){
+		value = 0;
+	}
+	if(increment == ""){
+		increment = 1;
+	}
+
+	counter_name_tb.val(counter_name_tb.prop("defaultValue"));
+	value_tb.val(value_tb.prop("defaultValue"));
+	increment_tb.val(increment_tb.prop("defaultValue"));
+
+	console.log('NAME ' + name + " " + value + " " + increment )
 	var db = window.openDatabase("counters", "1.0", "counters", 200000);
 	db.transaction(function(tx){
-		tx.executeSql("INSERT INTO counters(name,value) VALUES (\'"+name+"\',0)",[],successCB,errorCB)	
+		tx.executeSql("INSERT INTO counters(name,value,increment) VALUES (\'"+name+"\',"+value+","+increment+")",[],successCB,errorCB)	
 	});
 	//redraw counters
 	getCounters();
@@ -85,21 +103,21 @@ function removeCounter(id){
 	//redraw counters
 	getCounters();
 }
-function decrementCounter(id){
+function decrementCounter(id, diff){
 	console.log('Decrement Counter');
 	var db = window.openDatabase("counters", "1.0", "counters", 200000);
 	db.transaction(function(tx){
-		tx.executeSql("UPDATE counters SET value = value - 1 WHERE id = "+id,[],successCB,errorCB);	
+		tx.executeSql("UPDATE counters SET value = value - "+diff+" WHERE id = "+id,[],successCB,errorCB);	
 	});
 
 	//redraw counters
 	getCounters();
 }
-function incrementCounter(id){
+function incrementCounter(id, diff){
 	console.log('Increment Counter');
 	var db = window.openDatabase("counters", "1.0", "counters", 200000);
 	db.transaction(function(tx){
-		tx.executeSql("UPDATE counters SET value = value + 1 WHERE id = "+id,[],successCB,errorCB);
+		tx.executeSql("UPDATE counters SET value = value + "+diff+" WHERE id = "+id,[],successCB,errorCB);
 	});
 
 	//redraw counters
@@ -118,3 +136,18 @@ function inputFocus(i){
 function inputBlur(i){
     if(i.value==""){ i.value=i.defaultValue; i.style.color="#888"; }
 }
+
+function isNumber(evt){
+	console.log('isNumber');
+	evt = (evt) ? evt : window.event;
+	var charCode = (evt.which) ? evt.which : evt.keyCode;
+	if(charCode > 31 && (charCode < 48 || charCode >57)){
+		return false;
+	}
+	return true;
+}
+
+
+
+
+

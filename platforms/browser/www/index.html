@@ -10,51 +10,85 @@
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css" />
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/mycss.css" />
- 
 
-
-	<title>Super Counter</title>
+	<title>Simple Count</title>
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
 	<script type="text/javascript" src="js/dbhelp.js"></script>
-        <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>	
+	<script type="text/javascript" src="js/swipe.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>	
 	<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
     </head>
     <body onload="dbConnect();getCounters();">
 	<div data-role="page" id="index">
-       		<header class="header-div">
-			<h1 class="main-heading">Smple Count</h1>
+       		<header data-role="header" data-theme="b" class="">
+			<a href="#about" data-icon="info" data-inline="true" data-iconpos="notext" data-corners="false" class="ui-btn-left" data-theme="b"></a>
+			<h1 class="main-heading">Simple Count</h1>
+			<a href="#settings" data-icon="gear" data-inline="true" data-iconpos="notext" data-corners="false" class="ui-btn-right" data-theme="b" ></a>
+
 		</header>
-		<div class="content-div">
-			<div>
-				<i class="fa fa-3x fa-plus a-btn" onclick="addCounter()"></i>
-				<input type="text" class="a-tb" name="name" id="counter-name" value="Counter Name" style="color:#888;" onfocus="inputFocus(this)" onblur="inputBlur(this)"/>
+		<div class="add-div">
+			<div class="add-div-center">
+				<i class="fa fa-3x fa-plus a-btn" onclick="$.mobile.changePage( $('#addCounter'), 'slide', true, true);"></i>
 			</div>
-	
+		</div>
+
+		<div class="content-div">
+
 			<ul id="counterList" data-role="listview">
 			</ul>
 		</div>
-		<footer data-role="footer" data-theme="c">
-			<h3>FergDEV</h3>
-		</footer>
 	</div>
-	<div data-role="page" id="about" data-add-back-btn="true">
-		<header data-role="header">
+
+	<div data-role="page" id="addCounter">
+       		<header data-role="header" data-theme="b" class="">
+		<h1 class="main-heading">Smple Count</h1>
+			<a href="#index" data-icon="check" data-inline="true" data-iconpos="notext" data-corners="false" class="ui-btn-right" data-theme="b" onclick="addCounter()"></a>
+			<a href="#index" data-icon="delete" data-inline="true" data-iconpos="notext" data-corners="false" class="ui-btn-left" data-theme="b"></a>
+			
+		</header>
+		<div data-role="fieldcontain">
+			<label for="counter-name">Counter Name</label>
+			<input type="text" class="a-tb" name="counter-name" id="counter-name" value="Counter Name" data-clear-btn="true" onfocus="inputFocus(this)" onblur="inputBlur(this)"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label for="counter-value">Value</label>
+			<input type="text" class="a-tb" name="counter-value" id="counter-value" value="0" data-clear-btn="true" onfocus="inputFocus(this)" onblur="inputBlur(this)" onkeypress="return isNumber(event);"/>
+		</div>
+	
+
+		<div data-role="fieldcontain">
+			<label for="counter-increment">Increment</label>
+			<input type="text" class="a-tb" name="counter-increment" id="counter-increment" value="1" data-clear-btn="true" onfocus="inputFocus(this)" onblur="inputBlur(this)" onkeypress="return isNumber(event);"/>
+		</div>
+	</div>
+
+	<div data-role="page" id="settings">
+		<header data-role="header" data-theme="b">
+		<h1>Settings</h1>	
+			<a href="#index" data-icon="check" data-inline="true" data-iconpos="notext" data-corners"false" class="ui-btn-right" data-theme="b"></a>
+			<a href="#index" data-icon="delete" data-inline="true" data-iconpos="notext" data-corners="false" class="ui-btn-left" data-theme="b"></a>
+			
+		</header>
+	</div>
+
+	<div data-role="page" id="about">
+		<header data-role="header" data-theme="b">
+			<a href="#index" class="ui-btn-left" data-icon="home" data-inline="true" data-iconpos="notext" data-corners="false" data-direction="reverse" data-theme="b"></a>
 			<h1>About</h1>
+			<a href="http://fergdev.com" class="ui-btn-right" data-icon="info" data-inline="true" data-iconpos="notext" data-corners="false" data-theme="b"></a>
+	
 		</header>
 		<div data-role="content">
+			<h4>Instructions</h4>
+			<p>Swipe to delete counter</p>
+
+			
 			<p>Made by fergdev</p>
-			<p>Don't Judge me bro</p>
+			<p>This was made for fun, don't judge me bro.</p>
+			
 		</div>
-		<footer data-role="footer" class="ui-body-b">
-			<div data-role="navbar">
-				<ul>
-					<li><a href="#index" data-direction="reverse">App Homescreen!</a></li>
-					<li><a href="http://fergdev.com">My Site</a></li>
-				</ul>
-			</div>
-		</footer>
 	</div>
    </body>
 </html>
