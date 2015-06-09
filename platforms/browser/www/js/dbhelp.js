@@ -53,11 +53,7 @@ function renderCounters(tx, results){
 			console.log("SWIPE L" + row['id'] );
 			removeCounter(row['id']);
 		});
-
-
-	
-	}
-	);
+	});
 	$('#counterList').listview('refresh');
 }
 function addCounter(){
@@ -87,6 +83,10 @@ function addCounter(){
 	db.transaction(function(tx){
 		tx.executeSql("INSERT INTO counters(name,value,increment) VALUES (\'"+name+"\',"+value+","+increment+")",[],successCB,errorCB)	
 	});
+	
+	//Change page
+	$.mobile.changePage("#index-page",{transition:"slide"});
+
 	//redraw counters
 	getCounters();
 	console.log('END ADD COUNTER');
@@ -147,6 +147,10 @@ function incrementCounter(id, diff){
 	animateUpdate(id);
 	navigator.vibrate(500);
 	playClick();
+}
+function updateSettings(){
+	//Change page
+	$.mobile.changePage("#index-page",{transition:"slide"});
 }
 function animateUpdate(id){
 	console.log('AnimateUpdate')

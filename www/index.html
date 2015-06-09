@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/mycss.css" />
 
-	<title>Simple Count</title>
+	<title>Count</title>
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
@@ -22,33 +22,35 @@
 	<script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
     </head>
     <body onload="dbConnect();getCounters();">
-	<div data-role="page" id="index">
-       		<header data-role="header" data-theme="b" class="">
-			<a href="#about" data-icon="info" data-inline="true" data-iconpos="notext" data-corners="false" class="ui-btn-left" data-theme="b"></a>
-			<h1 class="main-heading">Simple Count</h1>
-			<a href="#settings" data-icon="gear" data-inline="true" data-iconpos="notext" data-corners="false" class="ui-btn-right" data-theme="b" ></a>
-
-		</header>
-		<div class="add-div">
-			<div class="add-div-center">
-				<i class="fa fa-3x fa-plus a-btn" onclick="$.mobile.changePage( $('#addCounter'), 'slide', true, true);"></i>
+	<div data-role="page" id="index-page">
+		<div id="index-header-div" class="my-header-div">
+			<div>
+				<h1 class="title-header">Count</h1>
+			</div>
+			<div class="icon-div">
+				<i class="fa fa-3x fa-info a-btn" onclick="$.mobile.changePage( $('#about-page'), 'slide', true, true);"></i>
+				<i class="fa fa-3x fa-cog a-btn" onclick="$.mobile.changePage( $('#settings-page'), 'slide', true, true);"></i>
+			<i class="fa fa-3x fa-plus a-btn" onclick="$.mobile.changePage( $('#add-counter-page'), 'slide', true, true);"></i>
 			</div>
 		</div>
-
-		<div class="content-div">
-
+		<div class="counterListDiv">
 			<ul id="counterList" data-role="listview">
 			</ul>
 		</div>
 	</div>
 
-	<div data-role="page" id="addCounter">
-       		<header data-role="header" data-theme="b" class="">
-		<h1 class="main-heading">Smple Count</h1>
-			<a href="#index" data-icon="check" data-inline="true" data-iconpos="notext" data-corners="false" class="ui-btn-right" data-theme="b" onclick="addCounter()"></a>
-			<a href="#index" data-icon="delete" data-inline="true" data-iconpos="notext" data-corners="false" class="ui-btn-left" data-theme="b"></a>
-			
-		</header>
+	<div data-role="page" id="add-counter-page">
+       		<div id="add-counter-header-div" class="my-header-div">
+			<div>
+				<h1 class="title-header">Add</h1>
+			</div>
+			<div class="icon-div">
+				<i class="fa fa-3x fa-check a-btn" onclick="addCounter();"></i>
+				<i class="fa fa-3x fa-close a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
+	
+			</div>
+		</div>
+
 		<div data-role="fieldcontain">
 			<label for="counter-name">Counter Name</label>
 			<input type="text" class="a-tb" name="counter-name" id="counter-name" value="Counter Name" data-clear-btn="true" onfocus="inputFocus(this)" onblur="inputBlur(this)"/>
@@ -65,26 +67,33 @@
 		</div>
 	</div>
 
-	<div data-role="page" id="settings">
-		<header data-role="header" data-theme="b">
-		<h1>Settings</h1>	
-			<a href="#index" data-icon="check" data-inline="true" data-iconpos="notext" data-corners"false" class="ui-btn-right" data-theme="b"></a>
-			<a href="#index" data-icon="delete" data-inline="true" data-iconpos="notext" data-corners="false" class="ui-btn-left" data-theme="b"></a>
-			
-		</header>
-		<div data-role=''>
+	<div data-role="page" id="settings-page">
+       		<div id="settings-header-div" class="my-header-div">
+			<div>
+				<h1 class="title-header">Settings</h1>
+			</div>
+			<div class="icon-div">
+				<i class="fa fa-3x fa-check a-btn" onclick="updateSettings();"></i>
+				<i class="fa fa-3x fa-close a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
+	
+			</div>
+		</div>
+		<div>
 			<label><input type="checkbox" name="vibrate-cb" id="vibrate-cb"/>Vibrate</label>
 			<label><input type="checkbox" name="sound-cb" id="sound-cb"/>Sound</label>
 		</div>
 	</div>
 
-	<div data-role="page" id="about">
-		<header data-role="header" data-theme="b">
-			<a href="#index" class="ui-btn-left" data-icon="home" data-inline="true" data-iconpos="notext" data-corners="false" data-direction="reverse" data-theme="b"></a>
-			<h1>About</h1>
-			<a href="http://fergdev.com" class="ui-btn-right" data-icon="info" data-inline="true" data-iconpos="notext" data-corners="false" data-theme="b"></a>
-	
-		</header>
+	<div data-role="page" id="about-page">
+       		<div id="about-header-div" class="my-header-div">
+			<div>
+				<h1 class="title-header">About</h1>
+			</div>
+			<div class="icon-div">
+				<i class="fa fa-3x fa-home a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
+			</div>
+		</div>
+		
 		<div data-role="content">
 			<h4>Instructions</h4>
 			<p>Swipe to delete counter</p>
