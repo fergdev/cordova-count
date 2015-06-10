@@ -31,20 +31,20 @@ function renderCounters(tx, results){
 	$.each(results.rows,function(index){
 		var row = results.rows.item(index);
 	        
-		var html = '<li id="count-'+row['id']+'" class="counter-li">'; 
- 		html+='<div id="dec-btn-'+row['id']+'" class="column-a"><i class="fa fa-minus fa-3x inc-btn" onclick="decrementCounter('+row['id']+','+row['increment']+')"></i></div>'		
+		var html= '<li id="count-'+row['id']+'" class="counter-li">'; 
+		html+='<div id="dec-btn-'+row['id']+'"class="column-a"><i class="fa fa-minus fa-3x inc-btn" onclick="decrementCounter('+row['id']+','+row['increment']+');"></i></div>';		
+		
+		html+='<div id="inc-btn-'+row['id']+'" class="column-c"><i class="fa fa-plus fa-3x inc-btn" onclick="incrementCounter('+row['id']+','+row['increment']+');"></i></div>';		
+			
 		html+='<div class="column-b">';
 		html+='<h4 class="counter-name">'+row['name']+'</h4>';
-		
 		html+='<h4 id="cv-'+row['id']+'" class="counter-value">'+row['value']+'</h4>';
-		html+='</div>'
-		html+='<div id="inc-btn-'+row['id']+'" class="column-c"><i href="" class="fa fa-3x fa-plus inc-btn" onclick="incrementCounter('+row['id']+','+row['increment']+')"></i></div>'		
+		html+='</div>';
 	
-		html+='</li>';
-
-//		console.log(html)	
+		html += '</li>';
+		console.log(html);	
 		counterList.append(html);
-		
+		//$("#count"+row['id']).removeClass('counterLi').addClass('counterLi');	
 		$("#count-"+row['id']).swiperight(function(){
 		//	console.log("SWIPE R" + row['id'] );
 			removeCounter(row['id']);
@@ -54,7 +54,8 @@ function renderCounters(tx, results){
 			removeCounter(row['id']);
 		});
 	});
-	$('#counterList').listview('refresh');
+	//$('#counterList').listview('refresh');
+	//$(".counterLi").removeClass('counterLi').addClass('counterLi');
 }
 function addCounter(){
 	console.log("Add counter");
@@ -196,8 +197,9 @@ function playClick(){
 }
 
 function doBounce(element, times, distance, speed) {
-    for(i = 0; i < times; i++) {
-        element.animate({marginTop: '-='+distance},speed)
-            .animate({marginTop: '+='+distance},speed);
-    }        
+	element.finish();
+	for(i = 0; i < times; i++) {
+        	element.animate({marginTop: '-='+distance},speed)
+            	.animate({marginTop: '+='+distance},speed);
+    	}        
 }
