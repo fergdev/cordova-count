@@ -28,14 +28,12 @@
 				<h1 class="title-header">Count</h1>
 			</div>
 			<div class="icon-div">
-				<i class="fa fa-3x fa-info a-btn" onclick="$.mobile.changePage( $('#about-page'), 'slide', true, true);"></i>
-				<i class="fa fa-3x fa-cog a-btn" onclick="$.mobile.changePage( $('#settings-page'), 'slide', true, true);"></i>
-			<i class="fa fa-3x fa-plus a-btn" onclick="$.mobile.changePage( $('#add-counter-page'), 'slide', true, true);"></i>
+				<i class="fa fa-5x fa-info a-btn" onclick="$.mobile.changePage( $('#about-page'), 'slide', true, true);"></i>
+				<i class="fa fa-5x fa-cog a-btn" onclick="$.mobile.changePage( $('#settings-page'), 'slide', true, true);"></i>
+				<i class="fa fa-5x fa-plus a-btn" onclick="$.mobile.changePage( $('#add-counter-page'), 'slide', true, true);"></i>
 			</div>
 		</div>
-		<div class="counterListDiv">
-			<ul id="counterList" >
-			</ul>
+		<div id="counterList" >
 		</div>
 	</div>
 
@@ -45,23 +43,23 @@
 				<h1 class="title-header">Add</h1>
 			</div>
 			<div class="icon-div">
-				<i class="fa fa-3x fa-check a-btn" onclick="addCounter();"></i>
-				<i class="fa fa-3x fa-close a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
+				<i class="fa fa-5x fa-check a-btn" onclick="addCounter();"></i>
+				<i class="fa fa-5x fa-close a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
 	
 			</div>
 		</div>
 
-		<div data-role="fieldcontain">
+		<div data-role="fieldcontain" class="add-counter-body">
 			<label for="counter-name">Counter Name</label>
 			<input type="text" class="a-tb" name="counter-name" id="counter-name" value="Counter Name" data-clear-btn="true" onfocus="inputFocus(this)" onblur="inputBlur(this)"/>
 		</div>
-		<div data-role="fieldcontain">
+		<div data-role="fieldcontain" class="add-counter-body">
 			<label for="counter-value">Value</label>
 			<input type="text" class="a-tb" name="counter-value" id="counter-value" value="0" data-clear-btn="true" onfocus="inputFocus(this)" onblur="inputBlur(this)" onkeypress="return isNumber(event);"/>
 		</div>
 	
 
-		<div data-role="fieldcontain">
+		<div data-role="fieldcontain" class="add-counter-body">
 			<label for="counter-increment">Increment</label>
 			<input type="text" class="a-tb" name="counter-increment" id="counter-increment" value="1" data-clear-btn="true" onfocus="inputFocus(this)" onblur="inputBlur(this)" onkeypress="return isNumber(event);"/>
 		</div>
@@ -73,8 +71,8 @@
 				<h1 class="title-header">Settings</h1>
 			</div>
 			<div class="icon-div">
-				<i class="fa fa-3x fa-check a-btn" onclick="updateSettings();"></i>
-				<i class="fa fa-3x fa-close a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
+				<i class="fa fa-5x fa-check a-btn" onclick="updateSettings();"></i>
+				<i class="fa fa-5x fa-close a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
 	
 			</div>
 		</div>
@@ -90,7 +88,7 @@
 				<h1 class="title-header">About</h1>
 			</div>
 			<div class="icon-div">
-				<i class="fa fa-3x fa-home a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
+				<i class="fa fa-5x fa-home a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
 			</div>
 		</div>
 		

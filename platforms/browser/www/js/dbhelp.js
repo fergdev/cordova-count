@@ -1,5 +1,3 @@
-
-
 function dbConnect(){
 	console.log("HELLO WORLD");
 	var db = window.openDatabase("counters", "1.0", "counters", 200000);
@@ -27,24 +25,23 @@ function renderCounters(tx, results){
 	var counterList = $('#counterList');
 	counterList.empty();
 	console.log('TODO cleanup event handlers on li');
-	
+
 	$.each(results.rows,function(index){
 		var row = results.rows.item(index);
 	        
-		var html= '<li id="count-'+row['id']+'" class="counter-li">'; 
-		html+='<div id="dec-btn-'+row['id']+'"class="column-a"><i class="fa fa-minus fa-3x inc-btn" onclick="decrementCounter('+row['id']+','+row['increment']+');"></i></div>';		
-		
-		html+='<div id="inc-btn-'+row['id']+'" class="column-c"><i class="fa fa-plus fa-3x inc-btn" onclick="incrementCounter('+row['id']+','+row['increment']+');"></i></div>';		
+		var html= '<div id="count-'+row['id']+'" class="counter-li">'; 
+		html+='<div class="column-a"><i class="fa fa-minus fa-4x inc-btn" onclick="decrementCounter('+row['id']+','+row['increment']+');"></i></div>';		
+
+		html+='<div class="column-c"><i class="fa fa-plus fa-4x inc-btn" onclick="incrementCounter('+row['id']+','+row['increment']+');"></i></div>';		
 			
 		html+='<div class="column-b">';
 		html+='<h4 class="counter-name">'+row['name']+'</h4>';
 		html+='<h4 id="cv-'+row['id']+'" class="counter-value">'+row['value']+'</h4>';
 		html+='</div>';
 	
-		html += '</li>';
-		console.log(html);	
+		html += '</div>';
+		//console.log(html);	
 		counterList.append(html);
-		//$("#count"+row['id']).removeClass('counterLi').addClass('counterLi');	
 		$("#count-"+row['id']).swiperight(function(){
 		//	console.log("SWIPE R" + row['id'] );
 			removeCounter(row['id']);
@@ -54,7 +51,7 @@ function renderCounters(tx, results){
 			removeCounter(row['id']);
 		});
 	});
-	//$('#counterList').listview('refresh');
+//	$('#counterList').listview('refresh');
 	//$(".counterLi").removeClass('counterLi').addClass('counterLi');
 }
 function addCounter(){
