@@ -6,7 +6,6 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css" />
 	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.min.css">	
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
@@ -14,23 +13,22 @@
 
 	<title>Count</title>
 
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
 	<script type="text/javascript" src="js/dbhelp.js"></script>
 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>	
 	<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
 	<script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
     </head>
-    <body onload="dbConnect();getCounters();">
+    <body>
 	<div data-role="page" id="index-page">
 		<div id="index-header-div" class="my-header-div">
 			<div>
 				<h1 class="title-header">Count</h1>
 			</div>
 			<div class="icon-div">
-				<i class="fa fa-5x fa-info a-btn" onclick="$.mobile.changePage( $('#about-page'), 'slide', true, true);"></i>
-				<i class="fa fa-5x fa-cog a-btn" onclick="$.mobile.changePage( $('#settings-page'), 'slide', true, true);"></i>
-				<i class="fa fa-5x fa-plus a-btn" onclick="$.mobile.changePage( $('#add-counter-page'), 'slide', true, true);"></i>
+				<i id='aboutButton' class="fa fa-2x fa-info a-btn"></i>
+				<i id='settingsButton'class="fa fa-2x fa-cog a-btn"></i>
+				<i id='addButton' class="fa fa-2x fa-plus a-btn"> </i>
 			</div>
 		</div>
 		<div id="counterList" >
@@ -43,25 +41,26 @@
 				<h1 class="title-header">Add</h1>
 			</div>
 			<div class="icon-div">
-				<i class="fa fa-5x fa-check a-btn" onclick="addCounter();"></i>
-				<i class="fa fa-5x fa-close a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
+				<i class="fa fa-2x fa-check a-btn" onclick="addCounter();"></i>
+				<i class="fa fa-2x fa-close a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
 	
 			</div>
 		</div>
-
-		<div data-role="fieldcontain" class="add-counter-body">
-			<label for="counter-name">Counter Name</label>
-			<input type="text" class="a-tb" name="counter-name" id="counter-name" value="Counter Name" data-clear-btn="true" onfocus="inputFocus(this)" onblur="inputBlur(this)"/>
-		</div>
-		<div data-role="fieldcontain" class="add-counter-body">
-			<label for="counter-value">Value</label>
-			<input type="text" class="a-tb" name="counter-value" id="counter-value" value="0" data-clear-btn="true" onfocus="inputFocus(this)" onblur="inputBlur(this)" onkeypress="return isNumber(event);"/>
-		</div>
+		<div id='addDiv'>
+			<div data-role="fieldcontain" class="add-counter-body">
+				<label for="counter-name">Counter Name</label>
+				<input type="text" class="a-tb" name="counter-name" id="counter-name" value="Counter Name" data-clear-btn="true"/>
+			</div>
+			<div data-role="fieldcontain" class="add-counter-body">
+				<label for="counter-value">Value</label>
+				<input type="number" setp="1" class="a-tb numbersOnly" name="counter-value" id="counter-value" value="0" data-clear-btn="true"/>
+			</div>
 	
 
-		<div data-role="fieldcontain" class="add-counter-body">
-			<label for="counter-increment">Increment</label>
-			<input type="text" class="a-tb" name="counter-increment" id="counter-increment" value="1" data-clear-btn="true" onfocus="inputFocus(this)" onblur="inputBlur(this)" onkeypress="return isNumber(event);"/>
+			<div data-role="fieldcontain" class="add-counter-body">
+				<label for="counter-increment">Increment</label>
+				<input type="text" class="a-tb numbersOnly" name="counter-increment" id="counter-increment" value="1" data-clear-btn="true"/>
+			</div>
 		</div>
 	</div>
 
@@ -71,14 +70,12 @@
 				<h1 class="title-header">Settings</h1>
 			</div>
 			<div class="icon-div">
-				<i class="fa fa-5x fa-check a-btn" onclick="updateSettings();"></i>
-				<i class="fa fa-5x fa-close a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
-	
+				<i id='updateSettingsBtn' class="fa fa-2x fa-check a-btn"></i>
 			</div>
 		</div>
-		<div>
-			<label><input type="checkbox" name="vibrate-cb" id="vibrate-cb"/>Vibrate</label>
-			<label><input type="checkbox" name="sound-cb" id="sound-cb"/>Sound</label>
+		<div id='settingsDiv'>
+			<label><input id='vibrateCB' type="checkbox" name="vibrate-cb" >Vibrate</label>
+			<label><input id='soundCB' type="checkbox" name="sound-cb" >Sound</label>
 		</div>
 	</div>
 
@@ -88,16 +85,16 @@
 				<h1 class="title-header">About</h1>
 			</div>
 			<div class="icon-div">
-				<i class="fa fa-5x fa-home a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
+				<i class="fa fa-2x fa-home a-btn" onclick="$.mobile.changePage( '#index-page');"></i>
 			</div>
 		</div>
 		
-		<div data-role="content">
+		<div id='infoDiv'>
 			<h4>Instructions</h4>
-			<p>Swipe to delete counter</p>
+			<p>Swipe to delete counter.</p>
 
 			
-			<p>Made by fergdev</p>
+			<p>Made by fergdev.</p>
 			<p>This was made for fun, don't judge me bro.</p>
 			
 		</div>

@@ -12,6 +12,9 @@
         },
         "org.apache.cordova.media": {
             "PACKAGE_NAME": "com.fergdev.bastardhello"
+        },
+        "org.apache.cordova.dialogs": {
+            "PACKAGE_NAME": "com.fergdev.count"
         }
     },
     "dependent_plugins": {
