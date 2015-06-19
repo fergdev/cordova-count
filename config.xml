@@ -42,6 +42,11 @@
     <gap:plugin name="org.apache.cordova.notification"/>
     <gap:plugin name="org.apache.cordova.vibration" />
 
-
+	<platform name="android">
+              <icon src="icons/android/drawable-ldpi/ic_launcher.png" density="ldpi" />
+              <icon src="icons/android/drawable-mdpi/ic_launcher.png" density="mdpi" />
+              <icon src="icons/android/drawable-hdpi/ic_launcher.png" density="hdpi" />
+              <icon src="icons/android/drawable-xhdpi/ic_launcher.png" density="xhdpi" />
+     </platform>
 
 </widget>
